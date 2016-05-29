@@ -8,79 +8,7 @@ var getNewBoard = function (){
     }
     return board;
 }
-var test=[
-    ['X','O','X','X','X','X','X',' '],
-    ['X','O','O',' ','X',' ',' ',' '],
-    ['O','X','O','O','O','O','O',' '],
-    [' ','X','X','X','X',' ','X',' '],
-    [' ','X','X','X','X',' ',' ',' '],
-    [' ',' ',' ',' ',' ',' ',' ',' '],
-    [' ',' ',' ',' ',' ',' ',' ',' '],
-    [' ',' ',' ',' ',' ',' ',' ',' ']
-        ]
-var heuristicTable = [[1,-0.25,0.1,0.05,0.05,0.1,-0.25,1],
-    [-0.25,-0.25,0.01,0.01,0.01,0.01,-0.25,-0.25],
-    [0.1,0.01,0.05,0.02,0.02,0.05,0.01,0.1],
-    [0.05,0.01,0.02,0.01,0.01,0.02,0.01,0.05],
-    [0.05,0.01,0.02,0.01,0.01,0.02,0.01,0.05],
-    [0.1,0.01,0.05,0.02,0.02,0.05,0.01,0.1],
-    [-0.25,-0.25,0.01,0.01,0.01,0.01,-0.25,-0.25],
-    [1,-0.25,0.1,0.05,0.05,0.1,-0.25,1]
-];
-var countCorners = function(board){
-    var numX = 0;
-    var numO = 0;
-    if(board[0][0]=='X'){
-        numX++;
-    }
-    else if(board[0][0]=='O'){
-        numO++
-    }
-    if(board[0][7]=='X'){
-        numX++;
-    }
-    else if(board[0][7]=='O'){
-        numO++
-    }
-    if(board[7][0]=='X'){
-        numX++;
-    }
-    else if(board[7][0]=='O'){
-        numO++
-    }
-    if(board[7][7]=='X'){
-        numX++;
-    }
-    else if(board[7][7]=='O'){
-        numO++
-    }
-    return [numX,numO];
-};
-var evaluate = function (node,color){
-        //Verificamos si el tiro hace que el jugador gane o pierda
 
-        //Calculamos heuristica
-        var a = heuristicTable[node.x][node.y];
-        var b = isValidMove(node.board,node.playerTile,node.x,node.y).length; //numero de flipped coins
-        b = b/21 //noramlizamos
-        var c = getAllValidMoves(node.board,node.playerTile).length;
-        c = c/32;
-        //Corners
-        var corners = countCorners(node.board);
-        var numx = corners[0];
-        var numo = corners[1];
-        var cornerVal = 0;
-        if(color=='X'){
-            cornerVal = numx-numo;
-        }
-        else if(color=='O'){
-            cornerVal = numo-numx;
-        }
-        cornerVal = cornerVal/4;
-        var final = (0.2*a)+(0.2*b)+(0.3*c)+(0.5*cornerVal);
-        return final;
-
-    };
 var getOponentTile= function(tile){
     if(tile=='X'){
         return 'O';
